@@ -93,7 +93,6 @@
 
   # X1 Carbon Gen 9 services
   services.power-profiles-daemon.enable = true;
-  services.thermald.enable = true;
   services.fwupd.enable = true;
 
   #services.pipewire = {
