@@ -51,7 +51,6 @@
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets."minecraft_env" = { };
-  sops.secrets."hermes_env" = { };
 
   # RCON_PASSWORD comes from sops.secrets."minecraft_env" (see ./secrets.yaml);
   # nix-minecraft substitutes @RCON_PASSWORD@ in serverProperties at service
@@ -90,10 +89,11 @@
     };
   };
 
+  # Logged in via Copilot for now, so no API key/secret needed.
   services.hermes-agent = {
     enable = true;
     #settings.model.default = "anthropic/claude-sonnet-4";
-    environmentFiles = [ config.sops.secrets."hermes_env".path ];
+    #environmentFiles = [ config.sops.secrets."hermes_env".path ];
     addToSystemPackages = true;
   };
 

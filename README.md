@@ -82,8 +82,10 @@ alongside the admin key under a new `creation_rules` entry, then run
 - `minecraft_env` — `RCON_PASSWORD`, substituted into the Minecraft server's
   `rcon.password` via nix-minecraft's `@VAR@` substitution, so the real
   value never lands in the Nix store.
-- `hermes_env` — placeholder; needs a real value for hermes-agent
-  (e.g. an API key) filled in via `sops hosts/crafty/secrets.yaml`.
+
+hermes-agent doesn't have a secret yet — it's authenticated via a Copilot
+login rather than an API key, so `services.hermes-agent.environmentFiles`
+stays commented out in `hosts/crafty/configuration.nix` until that changes.
 
 ## Syncing crafty
 
