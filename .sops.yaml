@@ -1,0 +1,13 @@
+keys:
+  # Robert's personal admin key, derived from ~/.ssh/id_ed25519 (backed up in
+  # Vaultwarden) via: ssh-to-age -i ~/.ssh/id_ed25519.pub
+  - &admin_robert age1du6qgru89dz5ykcqlw97vear78ya8e5yu65ja80dlu52kdhn44msk6r58k
+  # crafty's host identity, derived from its /etc/ssh/ssh_host_ed25519_key.pub
+  - &host_crafty age1p0gay307txtfzln3mf0d9rrklpch2fjragc2650wgcfjcqtmj3jszypj4s
+
+creation_rules:
+  - path_regex: hosts/crafty/secrets\.yaml$
+    key_groups:
+      - age:
+          - *admin_robert
+          - *host_crafty
