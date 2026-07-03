@@ -55,6 +55,7 @@
     wget
     git
     claude-code
+    gh
   ];
 
   # This value determines the NixOS release from which the default
