@@ -17,9 +17,14 @@
     # Secrets management, shared by both hosts.
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, claude-code-nix, nixos-hardware, nix-minecraft, hermes-agent, sops-nix, ... }: {
+  outputs = { self, nixpkgs, claude-code-nix, nixos-hardware, nix-minecraft, hermes-agent, sops-nix, home-manager, ... }: {
     nixosConfigurations = {
       roach = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -27,6 +32,35 @@
           ./modules/common.nix
           ./hosts/roach/hardware-configuration.nix
           ./hosts/roach/configuration.nix
+          
+          hermes-agent.nixosModules.default
+
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.rc = { pkgs, ... }: {
+              home.stateVersion = "26.05";
+              programs.vscode = {
+                enable = true;
+                package = pkgs.vscode;
+
+                profiles.default = {
+                  extensions = with pkgs.vscode-extensions; [
+                    jnoortheen.nix-ide
+                    mkhl.direnv
+                    vscodevim.vim
+                  ];
+
+                  userSettings = {
+                    "editor.formatOnSave" = true;
+                    "nix.enableLanguageServer" = true;
+                    "nix.serverPath" = "nil";
+                  };
+                };
+              };
+            };
+          }
+
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
           sops-nix.nixosModules.sops
           { nixpkgs.overlays = [ claude-code-nix.overlays.default ]; }

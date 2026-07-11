@@ -16,8 +16,14 @@
   # Host-specific packages on top of modules/common.nix's base list.
   environment.systemPackages = with pkgs; [
     firefox
-    dig
     discord
+  ];
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    glib
   ];
 
   # Skip installing the default COSMIC apps we don't use.
@@ -35,6 +41,14 @@
   # X1 Carbon Gen 9 services
   services.power-profiles-daemon.enable = true; # Lets the desktop switch power/performance profiles.
   services.fwupd.enable = true; # Firmware updates (fwupdmgr) for BIOS/EC/peripherals.
+
+  # Logged in via Copilot for now, so no API key/secret needed.
+  services.hermes-agent = {
+    enable = true;
+    #settings.model.default = "anthropic/claude-sonnet-4";
+    #environmentFiles = [ config.sops.secrets."hermes_env".path ];
+    addToSystemPackages = true;
+  };
 
   #services.pipewire = {
   #  enable = true;
@@ -63,7 +77,7 @@
 
   services.resolved = {
     enable = true;
-    fallbackDns = [ "1.1.1.1" ]; # Or your preferred upstream DNS
+    settings.Resolve.FallbackDNS = [ "1.1.1.1" ]; # Or your preferred upstream DNS
   };
 
   # Intel GPU hardware video acceleration (VA-API) for the X1 Carbon's iGPU.
