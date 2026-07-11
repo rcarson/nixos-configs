@@ -17,6 +17,7 @@
   environment.systemPackages = with pkgs; [
     firefox
     dig
+    discord
   ];
 
   # Skip installing the default COSMIC apps we don't use.

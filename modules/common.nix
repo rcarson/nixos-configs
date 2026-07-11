@@ -56,6 +56,7 @@
     git
     claude-code
     gh
+    dig
   ];
 
   # This value determines the NixOS release from which the default
