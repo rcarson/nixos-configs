@@ -5,6 +5,12 @@
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Binary caches: pull pre-built packages instead of compiling locally.
+  # claude-code.cachix.org serves the claude-code-nix overlay's builds;
+  # cache.nixos.org stays enabled via the module default.
+  nix.settings.substituters = [ "https://claude-code.cachix.org" ];
+  nix.settings.trusted-public-keys = [ "claude-code.cachix.org-1:YeXf2aNu7UTX8Vwrze0za1WEDS+4DuI2kVeWEE4fsRk=" ];
+
   nixpkgs.config.allowUnfree = true;
 
   # Bootloader.
